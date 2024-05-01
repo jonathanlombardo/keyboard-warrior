@@ -20,6 +20,19 @@ class Lion extends Model
     return $this->belongsTo(User::class);
   }
 
+  // Calc lion modifier and save it on DB
+  public function calcMod()
+  {
+    $mod = 0;
+    foreach ($this->plots as $plot) {
+      $sin = $plot->sinergy;
+      $sin = $plot->pivot->supported ? $sin : $sin * -1;
+      $mod += $sin;
+    }
+    $this->modifier = $mod;
+    $this->save();
+  }
+
   // Generate a random Lion
   static function randomLion()
   {
@@ -27,6 +40,7 @@ class Lion extends Model
     // generate a lion
     $lion = new Lion();
     $lion->name = "new Lion";
+    $lion->modifier = 0;
     $lion->save();
 
     // retrieve all plots ids    
@@ -75,6 +89,7 @@ class Lion extends Model
       $lion->plots()->attach($unsupportedPlot, ['supported' => false]);
     }
 
+
     return $lion;
   }
 
@@ -89,6 +104,7 @@ class Lion extends Model
         "id" => $plot->id,
         "label" => $plot->label,
         "color" => $plot->color,
+        "sinergy" => $plot->sinergy,
       ];
       if ($plot->pivot->supported) {
         $supportedPlots[] = $mappedPlot;
@@ -97,9 +113,11 @@ class Lion extends Model
       }
     }
 
+
     $lion = [
       "id" => $lion->id,
       "name" => $lion->name,
+      "modifier" => $lion->modifier,
       "supportedPlots" => $supportedPlots,
       "unsupportedPlots" => $unsupportedPlots,
     ];

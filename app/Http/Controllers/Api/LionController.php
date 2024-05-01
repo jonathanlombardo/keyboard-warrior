@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Lion;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class LionController extends Controller
@@ -13,16 +13,6 @@ class LionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -41,21 +31,10 @@ class LionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lion  $lion
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Lion $lion)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lion  $lion
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Lion $lion)
+    public function show($id)
     {
         //
     }
@@ -64,10 +43,10 @@ class LionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lion  $lion
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lion $lion)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +54,10 @@ class LionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lion  $lion
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lion $lion)
+    public function destroy($id)
     {
         //
     }

@@ -16,6 +16,7 @@ return new class extends Migration {
       $table->id();
       $table->string('name');
       $table->string('color', 7)->nullable();
+      $table->integer('sinergy')->default(0)->nullable();
       $table->timestamps();
     });
   }

@@ -15,6 +15,7 @@ return new class extends Migration {
     Schema::create('lions', function (Blueprint $table) {
       $table->id();
       $table->string('name', 30);
+      $table->integer('modifier')->default(5);
       $table->foreignId('user_id')->nullable()->constrained();
       $table->foreignId('lion_id')->nullable()->constrained();
       $table->timestamps();

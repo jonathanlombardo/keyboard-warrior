@@ -21,8 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/', function () {
 
-  $lion = Lion::reMap(Lion::randomLion());
+  $lions = [];
 
-  return response()->json($lion);
+  for ($i = 0; $i < 100; $i++) {
+
+    $lion = Lion::randomLion();
+    $lion->calcMod();
+    $lion = Lion::reMap($lion);
+
+    $lions[] = $lion;
+  }
+  return response()->json($lions);
 
 });
