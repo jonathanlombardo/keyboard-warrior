@@ -46,4 +46,8 @@ class User extends Authenticatable
   {
     return $this->hasMany(Lion::class);
   }
+  public function plots()
+  {
+    return $this->belongsToMany(Plot::class)->withPivot('sinergy');
+  }
 }

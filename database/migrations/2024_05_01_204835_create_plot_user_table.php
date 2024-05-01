@@ -12,11 +12,11 @@ return new class extends Migration {
    */
   public function up()
   {
-    Schema::create('plots', function (Blueprint $table) {
+    Schema::create('plot_user', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
-      $table->string('color', 7)->nullable();
-      // $table->integer('sinergy')->default(0)->nullable();
+      $table->foreignId('plot_id')->constrained();
+      $table->foreignId('user_id')->constrained();
+      $table->integer('sinergy')->default(0);
       $table->timestamps();
     });
   }
@@ -28,6 +28,6 @@ return new class extends Migration {
    */
   public function down()
   {
-    Schema::dropIfExists('plots');
+    Schema::dropIfExists('plot_user');
   }
 };
