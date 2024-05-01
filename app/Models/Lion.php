@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Lion extends Model
 {
@@ -45,6 +46,7 @@ class Lion extends Model
 
     // retrieve all plots ids    
     $plotIds = Plot::all()->pluck('id')->toArray();
+
 
     //< retrieve configuration of ranges for lion's plots
     $plotConfig = config('lion')["plotConfig"];
@@ -123,5 +125,26 @@ class Lion extends Model
     ];
 
     return $lion;
+  }
+
+  static function calcAllMod()
+  {
+    // Retrive all user's lions
+    $lions = Lion::whereBelongsTo(Auth::user())->get();
+
+    // Retrive all lion belongs to a user lion
+    $lionsVs = Lion::select();
+    foreach ($lions as $lion) {
+      $lionsVs->orWhere('lion_id', $lion->id);
+    }
+    $lionsVs = $lionsVs->get();
+
+    // Marge lions
+    $lions->concat($lionsVs);
+
+    // Calc modifiers for each lion
+    foreach ($lions as $lion) {
+      $lion->calcMod();
+    }
   }
 }
