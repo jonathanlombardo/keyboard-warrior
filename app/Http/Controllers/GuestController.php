@@ -11,25 +11,25 @@ class GuestController extends Controller
   public function index()
   {
 
-    $lions = [];
+    // $lions = [];
 
-    for ($i = 0; $i < 10; $i++) {
+    // for ($i = 0; $i < 10; $i++) {
 
-      $randLion = Lion::randomLion();
-      $randLion->user_id = 1;
-      $randLion->save();
+    //   $randLion = Lion::randomLion();
+    //   $randLion->user_id = 1;
+    //   $randLion->save();
 
-    }
+    // }
 
-    Plot::calcAllSinergy();
-    Lion::calcAllMod();
+    // Plot::calcAllSinergy();
+    // Lion::calcAllMod();
 
-    foreach (Lion::all() as $lion) {
-      $lion = Lion::reMap($lion);
-      $lions[] = $lion;
-    }
+    // foreach (Lion::all() as $lion) {
+    //   $lion = Lion::reMap($lion);
+    //   $lions[] = $lion;
+    // }
 
-    return response()->json($lions);
+    // return response()->json($lions);
 
     // return view('guest.index');
   }
