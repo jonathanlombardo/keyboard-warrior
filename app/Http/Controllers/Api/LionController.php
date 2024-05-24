@@ -18,6 +18,8 @@ class LionController extends Controller
   public function initLions(Request $request)
   {
 
+    Lion::whereBelongsTo(Auth::user())->delete();
+
     $lions = [];
     $n = config('lion.initGame.lions');
 

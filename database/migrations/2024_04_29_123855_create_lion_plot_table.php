@@ -14,8 +14,8 @@ return new class extends Migration {
   {
     Schema::create('lion_plot', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('lion_id')->constrained();
-      $table->foreignId('plot_id')->constrained();
+      $table->foreignId('lion_id')->constrained()->cascadeOnDelete();
+      $table->foreignId('plot_id')->constrained()->cascadeOnDelete();
       $table->boolean('supported')->default(false);
       $table->timestamps();
     });
