@@ -15,65 +15,35 @@ class LionController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index(Request $request)
+  public function initLions(Request $request)
   {
 
-    // return response()->json('test');
-
     $lions = [];
+    $n = config('lion.initGame.lions');
 
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 0; $i < $n; $i++) {
 
       $randLion = Lion::randomLion();
       $randLion->user_id = Auth::id();
       $randLion->save();
 
+      $randLion = Lion::reMap($randLion);
+      $lions[] = $randLion;
+
     }
 
-    Plot::calcAllSinergy();
-    Lion::calcAllMod();
+    // Plot::calcAllSinergy();
+    // Lion::calcAllMod();
 
-    foreach (Lion::all() as $lion) {
-      $lion = Lion::reMap($lion);
-      $lions[] = $lion;
-    }
+    // foreach (Lion::whereBelongsTo(Auth::user())->get() as $lion) {
+    //   $lion = Lion::reMap($lion);
+    //   $lions[] = $lion;
+    // }
 
     return response()->json($lions);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    //
-  }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    //
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, $id)
-  {
-    //
-  }
 
   /**
    * Remove the specified resource from storage.
@@ -81,8 +51,8 @@ class LionController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
-  {
-    //
-  }
+  // public function destroy($id)
+  // {
+  //   //
+  // }
 }

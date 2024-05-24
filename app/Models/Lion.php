@@ -104,7 +104,7 @@ class Lion extends Model
     foreach ($lion->plots as $plot) {
       $mappedPlot = [
         "id" => $plot->id,
-        "label" => $plot->label,
+        "label" => $plot->name,
         "color" => $plot->color,
         "sinergy" => $plot->sinergy,
       ];

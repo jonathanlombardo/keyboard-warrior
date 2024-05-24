@@ -25,5 +25,5 @@ Route::post('/auth/register', [UserController::class, 'createUser']);
 Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
-  Route::get('/lions', [LionController::class, 'index'])->name('api.lions.index');
+  Route::get('/lions', [LionController::class, 'initLions'])->name('api.lions.initLions');
 });
