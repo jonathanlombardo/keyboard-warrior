@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Lion;
 use App\Models\Plot;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,20 @@ class LionController extends Controller
     return response()->json($lions);
   }
 
+  public function reCalcAll(Request $request)
+  {
+    Plot::calcAllSinergy();
+    Lion::calcAllMod();
+    $allLions = Lion::whereBelongsTo(Auth::user())->get();
+    $lions = [];
+
+    foreach ($allLions as $lion) {
+      $lions[] = Lion::reMap($lion);
+    }
+
+    return response()->json($lions);
+  }
+
 
 
   /**
@@ -53,8 +68,10 @@ class LionController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  // public function destroy($id)
-  // {
-  //   //
-  // }
+  public function destroyUnchoosed(Request $request)
+  {
+    $ids = $request->ids;
+    Lion::whereNotIn('id', $ids)->delete();
+    return redirect()->route('api.lions.reCalcAll');
+  }
 }
