@@ -16,6 +16,7 @@ return new class extends Migration {
       $table->id();
       $table->string('name');
       $table->integer('sinergy')->default(0);
+      $table->integer('damage')->default(0);
       $table->string('email')->unique();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');

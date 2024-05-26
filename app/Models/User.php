@@ -23,7 +23,7 @@ class User extends Authenticatable
     'password',
   ];
 
-  protected $appends = ['userSinergies'];
+  protected $appends = ['userSinergies', 'belief'];
 
   /**
    * The attributes that should be hidden for serialization.
@@ -89,5 +89,10 @@ class User extends Authenticatable
     }
     $this->sinergy = $totalSin;
     $this->save();
+  }
+
+  public function getBeliefAttribute()
+  {
+    return $this->sinergy - $this->damage;
   }
 }

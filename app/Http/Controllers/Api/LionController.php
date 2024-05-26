@@ -56,6 +56,11 @@ class LionController extends Controller
     $userSinergy = $user->userSinergies;
     $user->calcSin();
 
+    $global = [
+      'sinergy' => $user->sinergy,
+      'belief' => $user->belief
+    ];
+
     $allLions = Lion::whereBelongsTo($user)->get();
     $lions = [];
 
@@ -63,7 +68,7 @@ class LionController extends Controller
       $lions[] = Lion::reMap($lion);
     }
 
-    return response()->json(['lions' => $lions, 'sinergies' => $userSinergy, 'globalSin' => $user->sinergy]);
+    return response()->json(['lions' => $lions, 'sinergies' => $userSinergy, 'global' => $global]);
   }
 
 
