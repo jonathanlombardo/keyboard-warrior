@@ -88,6 +88,6 @@ class User extends Authenticatable
       $totalSin += $sin['sinergyPoints'];
     }
     $this->sinergy = $totalSin;
-    $this->save;
+    $this->save();
   }
 }
