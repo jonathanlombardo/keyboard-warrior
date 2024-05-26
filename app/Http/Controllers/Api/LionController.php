@@ -18,8 +18,10 @@ class LionController extends Controller
    */
   public function initLions(Request $request)
   {
-
-    Lion::whereBelongsTo(Auth::user())->delete();
+    $user = Auth::user();
+    Lion::whereBelongsTo($user)->delete();
+    $user->sinergy = 0;
+    $user->save();
 
     $lions = [];
     $n = config('lion.initGame.lions');
@@ -76,8 +78,6 @@ class LionController extends Controller
   {
     $user = Auth::user();
     $ids = $request->ids;
-    $user->sinergy = 0;
-    $user->save();
     Lion::whereNotIn('id', $ids)->delete();
     // return redirect()->route('api.lions.reCalcAll');
     return response()->json('success');
