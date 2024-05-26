@@ -37,15 +37,7 @@ class LionController extends Controller
 
     }
 
-    // Plot::calcAllSinergy();
-    // Lion::calcAllMod();
-
-    // foreach (Lion::whereBelongsTo(Auth::user())->get() as $lion) {
-    //   $lion = Lion::reMap($lion);
-    //   $lions[] = $lion;
-    // }
-
-    return response()->json($lions);
+    return response()->json(['lions' => $lions, 'nLions' => config('lion.initGame.lionsToChoose')]);
   }
 
   public function reCalcAll(Request $request)
@@ -81,10 +73,14 @@ class LionController extends Controller
    */
   public function destroyUnchoosed(Request $request)
   {
-    $user = Auth::user();
     $ids = $request->ids;
+
+    if (count($ids) < config('lion.initGame.lionsToChoose')) {
+      return response()->json('fail');
+    }
+
+    $ids = array_filter($ids, fn($key) => $key < config('lion.initGame.lionsToChoose'), ARRAY_FILTER_USE_KEY);
     Lion::whereNotIn('id', $ids)->delete();
-    // return redirect()->route('api.lions.reCalcAll');
     return response()->json('success');
   }
 }

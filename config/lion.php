@@ -9,5 +9,6 @@ return [
   ],
   "initGame" => [
     'lions' => 10,
+    'lionsToChoose' => 3,
   ]
 ];
