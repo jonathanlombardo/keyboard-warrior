@@ -23,6 +23,8 @@ class User extends Authenticatable
     'password',
   ];
 
+  protected $appends = ['userSinergies'];
+
   /**
    * The attributes that should be hidden for serialization.
    *
@@ -49,5 +51,43 @@ class User extends Authenticatable
   public function plots()
   {
     return $this->belongsToMany(Plot::class)->withPivot('sinergy');
+  }
+
+  public function getUserSinergiesAttribute()
+  {
+    $lions = Lion::whereBelongsTo($this)->get();
+    $plots = $this->plots;
+    $userPlots = [];
+    foreach ($plots as $plot) {
+      $plotSin = $plot->pivot->sinergy;
+      $sinPoints = 0;
+
+      foreach ($lions as $lion) {
+        foreach ($lion->plots as $lionPlot) {
+          if ($lionPlot->id == $plot->id) {
+            $sinPoints += $lionPlot->pivot->supported ? $plotSin : $plotSin * -1;
+          }
+        }
+      }
+
+      $userPlots[] = [
+        'label' => $plot->name,
+        'sinergy' => $plotSin,
+        'sinergyPoints' => $sinPoints,
+      ];
+    }
+
+    return $userPlots;
+  }
+
+  public function calcSin()
+  {
+    $userSinergies = $this->userSinergies;
+    $totalSin = 0;
+    foreach ($userSinergies as $sin) {
+      $totalSin += $sin['sinergyPoints'];
+    }
+    $this->sinergy = $totalSin;
+    $this->save;
   }
 }

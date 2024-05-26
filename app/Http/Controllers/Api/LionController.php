@@ -48,16 +48,20 @@ class LionController extends Controller
 
   public function reCalcAll(Request $request)
   {
+    $user = Auth::user();
     Plot::calcAllSinergy();
     Lion::calcAllMod();
-    $allLions = Lion::whereBelongsTo(Auth::user())->get();
+    $userSinergy = $user->userSinergies;
+    $user->calcSin();
+
+    $allLions = Lion::whereBelongsTo($user)->get();
     $lions = [];
 
     foreach ($allLions as $lion) {
       $lions[] = Lion::reMap($lion);
     }
 
-    return response()->json($lions);
+    return response()->json(['lions' => $lions, 'sinergies' => $userSinergy, 'globalSin' => $user->sinergy]);
   }
 
 
@@ -70,8 +74,12 @@ class LionController extends Controller
    */
   public function destroyUnchoosed(Request $request)
   {
+    $user = Auth::user();
     $ids = $request->ids;
+    $user->sinergy = 0;
+    $user->save();
     Lion::whereNotIn('id', $ids)->delete();
-    return redirect()->route('api.lions.reCalcAll');
+    // return redirect()->route('api.lions.reCalcAll');
+    return response()->json('success');
   }
 }

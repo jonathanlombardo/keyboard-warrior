@@ -26,8 +26,8 @@ Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
   Route::get('/lions', [LionController::class, 'initLions'])->name('api.lions.initLions');
+  Route::post('/destroy', [LionController::class, 'destroyUnchoosed'])->name('lions.destroyUnchoosed');
+  Route::get('/recalc', [LionController::class, 'reCalcAll'])->name('lions.reCalcAll');
 });
 
-Route::post('/destroy', [LionController::class, 'destroyUnchoosed'])->name('api.lions.destroyUnchoosed');
-Route::get('/recalc', [LionController::class, 'reCalcAll'])->name('api.lions.reCalcAll');
 
