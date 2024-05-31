@@ -21,6 +21,16 @@ class Lion extends Model
     return $this->belongsTo(User::class);
   }
 
+  public function lions()
+  {
+    return $this->hasMany(Lion::class);
+  }
+
+  public function lion()
+  {
+    return $this->belongsTo(Lion::class);
+  }
+
   // Calc lion modifier and save it on DB
   public function calcMod()
   {
@@ -115,6 +125,12 @@ class Lion extends Model
       }
     }
 
+    $vsLions = [];
+
+    foreach ($lion->lions as $lionVs) {
+      $vsLions[] = self::reMap($lionVs);
+    }
+
 
     $lion = [
       "id" => $lion->id,
@@ -122,6 +138,7 @@ class Lion extends Model
       "modifier" => $lion->modifier,
       "supportedPlots" => $supportedPlots,
       "unsupportedPlots" => $unsupportedPlots,
+      "vsLions" => $vsLions,
     ];
 
     return $lion;
